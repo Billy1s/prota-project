@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<input type="button" class="button" value="play" onclick="play()">
+
+
+
+
+
+<script type="text/javascript">
+var t = "static/sounds/e.mp3"
+
+function play(){
+    var audio = new Audio(t);
+    console.log(audio)
+    audio.play();
+}
+
+</script>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<table>
+  <tr>
+    <th>French</th>
+    <th>English</th>
+  </tr>
+  {% for card in cards %}
+  <tr>
+    <td>
+    {% for line in card.fr_snd.split(',')  %}
+    <input type="button" class="button" value="play" onclick="play('../{{line}}')">
+    {% endfor %}
+    </td>
+    <td>{{card.fr}}</td>
+    <td><input type="button" class="button" value="play" onclick="play('../{{card.eng_snd}}')"></td>
+    <td>{{card.eng}}</td>
+
+
+  </tr>
+  {% endfor %}
+
+</table>
+
+
+
+<script type="text/javascript">
+
+function play(loc){
+    var audio = new Audio(loc);
+    console.log(audio);
+    audio.play();
+}
+</script>
+
+{% endblock %}

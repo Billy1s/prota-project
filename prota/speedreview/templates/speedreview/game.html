@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/speedreview/game.css') }}">
+</head>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-3">
+				</div>
+				<div class="col-md-6">
+          Translate
+				</div>
+				<div class="col-md-3">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+				</div>
+				<div class="col-md-6 lgntit ">
+          <h1 class="text-center">English -> French</h1>
+				</div>
+				<div class="col-md-3">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+				</div>
+				<div class="col-md-6 boxmd">
+					<h1 class="text-center" id="question">Question</h1>
+					<div class="row">
+						<div class="col-md-6 btnpad">
+              <button type="button" class="button btn-block rounded-pill btntxt" id="btn1" onclick="check_answer('btn1')">---</button>
+						</div>
+						<div class="col-md-6 btnpad">
+              <button type="button" class="button btn-block rounded-pill btntxt" id="btn2" onclick="check_answer('btn2')">---</button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 btnpad">
+              <button type="button" class="button btn-block rounded-pill btntxt" id="btn3" onclick="check_answer('btn3')">---</button>
+						</div>
+						<div class="col-md-6 btnpad">
+              <button type="button" class="button btn-block rounded-pill btntxt" id="btn4" onclick="check_answer('btn4')">---</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <script type="text/javascript">
+	  var items = [
+		{% for item in cards %}
+			{
+				sound:"{{item.fr_snd.split(',')[0]}}",
+				fr:"{{item.fr}}",
+				eng:"{{item.eng}}"
+			},
+		{% endfor %}
+		];
+
+	var maxcount = items.length;
+	var count = 0;
+	var answer = "";
+
+	function genNum(limit){
+		var arr = []
+		while(arr.length < 4){
+    	var r = Math.floor(Math.random()*limit) + 1;
+    	if(arr.indexOf(r) === -1) arr.push(r);
+		}
+		return arr;
+	}
+
+	function new_question(count) {
+		question.innerHTML = items[count].eng
+
+		tmp = genNum(items.length-1)
+		btn1.innerHTML = items[tmp[0]].fr
+		btn2.innerHTML = items[tmp[1]].fr
+		btn3.innerHTML = items[tmp[2]].fr
+		btn4.innerHTML = items[tmp[3]].fr
+
+
+		switch(genNum(4)[0]) {
+			case 1:
+			btn1.innerHTML = items[count].fr;
+			answer = "btn1";
+			break;
+			case 2:
+			btn2.innerHTML = items[count].fr ;
+			answer = "btn2";
+			break;
+			case 3:
+			btn3.innerHTML = items[count].fr;
+			answer = "btn3";
+			break;
+			case 4:
+			btn4.innerHTML = items[count].fr;
+			answer = "btn4";
+			break;
+
+		}
+	}
+
+	function check_answer(choice) {
+		if (choice == answer) {
+			if (count < maxcount) {
+				count +=1;
+				new_question(count)
+			}
+		} else {
+			window.alert("Wrong!")
+		}
+	}
+
+
+	new_question(count)
+  </script>
+{% endblock %}
