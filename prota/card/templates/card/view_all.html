@@ -1,27 +1,78 @@
 {% extends "base.html" %}
 {% block content %}
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cards/view_all.css') }}">
+</head>
 
-<table>
-  <tr>
-    <th>French</th>
-    <th>English</th>
-  </tr>
-  {% for card in cards %}
-  <tr>
-    <td>
-    {% for line in card.fr_snd.split(',')  %}
-    <input type="button" class="button" value="play" onclick="play('../{{line}}')">
-    {% endfor %}
-    </td>
-    <td>{{card.fr}}</td>
-    <td><input type="button" class="button" value="play" onclick="play('../{{card.eng_snd}}')"></td>
-    <td>{{card.eng}}</td>
+    {% if current_user.is_authenticated %}
+        <div class="container">
+        <div class="row">
+        <div class="col"></div>
+        <div class="col-md-6">
+        <table class="flat-table flat-table-1">
+          <tr>
+            <th>Play Button</th>
+            <th>French</th>
+            <th>Play Button</th>
+            <th>English</th>
+            <th>Score</th>
+          </tr>
+          {% for card in cardscore %}
+              <tr>
+            <td>
+            {% for line in card[0].fr_snd.split(',')  %}
+            <input type="button" class="button" value="play" onclick="play('../{{line}}')">
+            {% endfor %}
+            </td>
+            <td>{{card[0].fr}}</td>
+            <td><input type="button" class="button" value="play" onclick="play('../{{card[0].eng_snd}}')"></td>
+            <td>{{card[0].eng}}</td>
+            <td>{{card[1].score}}</td>
+              </tr>
+          {% endfor %}
+        </table>
+        <table class="flat-table flat-table-2">
+          {% for card in cards %}
+          <tr>
+            <td>
+            {% for line in card.fr_snd.split(',')  %}
+            <input type="button" class="button" value="play" onclick="play('../{{line}}')">
+            {% endfor %}
+            </td>
+            <td>{{card.fr}}</td>
+            <td><input type="button" class="button" value="play" onclick="play('../{{card.eng_snd}}')"></td>
+            <td>{{card.eng}}</td>
+            <td>Not seen yet</td>
+          </tr>
+          {% endfor %}
+        </table>
+        </div>
+        <div class="col">
 
+        </div>
+        </div>
+        </div>
+    {% else %}
+        <table>
+          <tr>
+            <th>French</th>
+            <th>English</th>
+          </tr>
+          {% for card in cards %}
+          <tr>
+            <td>
+            {% for line in card.fr_snd.split(',')  %}
+            <input type="button" class="button" value="play" onclick="play('../{{line}}')">
+            {% endfor %}
+            </td>
+            <td>{{card.fr}}</td>
+            <td><input type="button" class="button" value="play" onclick="play('../{{card.eng_snd}}')"></td>
+            <td>{{card.eng}}</td>
+          </tr>
+          {% endfor %}
+        </table>
+    {% endif %}
 
-  </tr>
-  {% endfor %}
-
-</table>
 
 
 

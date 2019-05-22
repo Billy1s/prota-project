@@ -1,6 +1,6 @@
 from prota import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
+from flask_login import UserMixin, login_required
 
 
 
@@ -32,6 +32,9 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password_hash,password)
 
 
+
+def load_card(card_id):
+    return Card.query.get(card_id)
 #############
 ### card ###
 #############
@@ -61,9 +64,25 @@ class Score(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userid = db.Column(db.Integer,db.ForeignKey('users.id'))
     cardid = db.Column(db.Integer, db.ForeignKey('cards.id'))
-    score = db.Column(db.Integer)
+    score = db.Column(db.Integer,default=0)
 
     def __init__(self,userid,cardid,score):
         self.userid = userid
         self.cardid = cardid
         self.score = score
+
+#@login_required
+def get_score(userid,cardid_list):
+    scorecards = []
+    for cardid in cardid_list:
+        c = Score.query.filter_by(userid=userid, cardid=cardid).first()
+        if c == None:
+            newc = Score(userid,cardid,0)
+            db.session.add(newc)
+            scorecards.append(newc)
+        else:
+            scorecards.append(c)
+    db.session.commit()
+    return scorecards
+
+

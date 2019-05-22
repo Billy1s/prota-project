@@ -22,7 +22,7 @@
     <li class="nav-link"><a href="{{ url_for('users.register') }}">Register</a></li>
     {% endif %}
 
-    <li class="nav-link"><a href="{{ url_for('card.view_all') }}">Cards</a></li>
+    <li class="nav-link"><a href="{{ url_for('card.view_all', userid=current_user.id) }}">Cards</a></li>
   <li class="nav-link"><a href="{{ url_for('speedreview.game') }}">Speed Review</a></li>
     <li class="nav-link"><a href="{{ url_for('test') }}">test</a></li>
     <li class="nav-link"><a href="{{ url_for('testview') }}">testview</a></li>
