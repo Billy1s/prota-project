@@ -55,7 +55,6 @@
 	</div>
 </div>
 
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -66,6 +65,7 @@
 	  var items = [
 		{% for item in cards %}
 			{
+			    id:"{{ item.id }}",
 				sound:"{{item.fr_snd.split(',')[0]}}",
 				fr:"{{item.fr}}",
 				eng:"{{item.eng}}"
@@ -76,9 +76,11 @@
 	var maxcount = items.length;
 	var count = 0;
 	var answer = "";
+	var cardidar = [];
+	var wrong = 0;
 
 	function genNum(limit){
-		var arr = []
+		var arr = [];
 		while(arr.length < 4){
     	var r = Math.floor(Math.random()*limit) + 1;
     	if(arr.indexOf(r) === -1) arr.push(r);
@@ -87,13 +89,13 @@
 	}
 
 	function new_question(count) {
-		question.innerHTML = items[count].eng
+		question.innerHTML = items[count].eng;
 
-		tmp = genNum(items.length-1)
-		btn1.innerHTML = items[tmp[0]].fr
-		btn2.innerHTML = items[tmp[1]].fr
-		btn3.innerHTML = items[tmp[2]].fr
-		btn4.innerHTML = items[tmp[3]].fr
+		tmp = genNum(items.length-1);
+		btn1.innerHTML = items[tmp[0]].fr;
+		btn2.innerHTML = items[tmp[1]].fr;
+		btn3.innerHTML = items[tmp[2]].fr;
+		btn4.innerHTML = items[tmp[3]].fr;
 
 
 		switch(genNum(4)[0]) {
@@ -119,14 +121,51 @@
 
 	function check_answer(choice) {
 		if (choice == answer) {
+		    updatescore(items[count].id);
+		    cardidar.push(items[count].id);
 			if (count < maxcount) {
 				count +=1;
-				new_question(count)
-			}
+				new_question(count);
+			} else {
+			    end()
+            }
 		} else {
-			window.alert("Wrong!")
+            window.alert("Wrong!");
+		    if (count < maxcount) {
+                count += 1;
+                new_question(count);
+            } else {
+		        end()
+            }
 		}
 	}
+
+
+	function end(){
+	    window.alert("Youve Finished");
+	    console.log(cardid);
+
+        scoreValue = 20;
+        var MY_URL = "{{ url_for("speedreview.scorescreen") }}";
+        var xhr = new XMLHttpRequest();
+        var data = new FormData();
+        data.append('score', scoreValue);
+        data.append('cardid',cardidar);
+        xhr.open('POST', MY_URL);
+        xhr.send(data);
+
+    }
+
+    function updatescore(cardid) {
+        var MY_URL = "{{ url_for("speedreview.updatescore") }}";
+        var xhr = new XMLHttpRequest();
+        var data = new FormData();
+        data.append('userid',{{ current_user.id }});
+        data.append('cardid',cardid);
+        xhr.open('POST', MY_URL);
+        xhr.send(data);
+    }
+
 
 
 	new_question(count)

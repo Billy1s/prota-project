@@ -1,5 +1,5 @@
 from prota import db
-from prota.models import User,Card,Score, load_user, load_card, get_score
+from prota.models import User,Card,Score, load_user, load_card
 
 
 # def get_or_create(session, model, **kwargs):

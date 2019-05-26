@@ -53,9 +53,15 @@
         </div>
         </div>
     {% else %}
-        <table>
-          <tr>
+        <div class="container">
+            <div class="row"><h3>Sign in to view your score</h3></div>
+        <div class="row">
+        <div class="col"></div>
+        <table class="flat-table flat-table-3">
+            <tr>
+            <th>Play Button</th>
             <th>French</th>
+            <th>Play Button</th>
             <th>English</th>
           </tr>
           {% for card in cards %}
@@ -71,6 +77,9 @@
           </tr>
           {% endfor %}
         </table>
+        <div class="col"></div>
+        </div>
+        </div>
     {% endif %}
 
 

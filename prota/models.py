@@ -72,17 +72,15 @@ class Score(db.Model):
         self.score = score
 
 #@login_required
-def get_score(userid,cardid_list):
-    scorecards = []
-    for cardid in cardid_list:
-        c = Score.query.filter_by(userid=userid, cardid=cardid).first()
-        if c == None:
-            newc = Score(userid,cardid,0)
-            db.session.add(newc)
-            scorecards.append(newc)
-        else:
-            scorecards.append(c)
+
+def update_score(userid,cardid):
+    c = Score.query.filter_by(userid=userid, cardid=cardid).first()
+    if c == None:
+        newc = Score(userid,cardid,1)
+        db.session.add(newc)
+    else:
+        c.score += 1
+        db.session.add(c)
     db.session.commit()
-    return scorecards
 
 

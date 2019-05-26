@@ -1,6 +1,6 @@
 from prota import db
 from flask import render_template, redirect,request,url_for,flash,abort, Blueprint
-from prota.models import  User, Card, Score, get_score
+from prota.models import  User, Card, Score
 
 card_blueprint = Blueprint('card',
                             __name__,
