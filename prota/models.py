@@ -53,6 +53,11 @@ class Card(db.Model):
         self.fr_snd = fr_snd
         self.eng_snd = eng_snd
 
+    def json(self):
+        return {'id':self.id,'fr':self.fr,'eng':self.eng,'fr_snd':self.fr_snd,'eng_snd':self.eng_snd}
+
+
+
 
 
 #############
@@ -71,7 +76,11 @@ class Score(db.Model):
         self.cardid = cardid
         self.score = score
 
-#@login_required
+    def json(self):
+        card = Card.query.filter_by(cardid=self.cardid).first()
+        return {'score':self.score,'userid':self.userid,'cardid':self.cardid,'fr':card.fr,'eng':card.eng,'fr_snd':card.fr_snd,'eng_snd':card.eng_snd}
+
+
 
 def update_score(userid,cardid):
     c = Score.query.filter_by(userid=userid, cardid=cardid).first()
