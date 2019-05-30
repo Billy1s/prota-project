@@ -4,6 +4,7 @@ from flask_login import login_user,login_required,logout_user
 from prota.models import User
 from prota.users.forms import LoginForm, RegistrationForm
 
+# Views for User Class #
 
 users_blueprint = Blueprint('users',
                             __name__,

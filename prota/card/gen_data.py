@@ -1,5 +1,8 @@
 from prota.models import Card
 from prota import db
+
+# Script to populate db with #
+
 card1 = {
     "fr": "salut",
     "eng": "hi",

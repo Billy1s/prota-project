@@ -5,54 +5,38 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/speedreview/game.css') }}">
 </head>
 
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12">
-			<div class="row">
-				<div class="col-md-3">
-				</div>
-				<div class="col-md-6">
-          Translate
-				</div>
-				<div class="col-md-3">
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-3">
-				</div>
-				<div class="col-md-6 lgntit ">
-          <h1 class="text-center">English -> French</h1>
-				</div>
-				<div class="col-md-3">
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-3">
-				</div>
-				<div class="col-md-6 boxmd">
-					<h1 class="text-center" id="question">Question</h1>
-					<div class="row">
-						<div class="col-md-6 btnpad">
-              <button type="button" class="button btn-block rounded-pill btntxt" id="btn1" onclick="check_answer('btn1')">---</button>
-						</div>
-						<div class="col-md-6 btnpad">
-              <button type="button" class="button btn-block rounded-pill btntxt" id="btn2" onclick="check_answer('btn2')">---</button>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-6 btnpad">
-              <button type="button" class="button btn-block rounded-pill btntxt" id="btn3" onclick="check_answer('btn3')">---</button>
-						</div>
-						<div class="col-md-6 btnpad">
-              <button type="button" class="button btn-block rounded-pill btntxt" id="btn4" onclick="check_answer('btn4')">---</button>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3">
-				</div>
-			</div>
-		</div>
-	</div>
+<p class="flash-message hide-group">hello</p>
+<div class="container all">
+    <h2 class="text-center headers" id="title">English -> French</h2>
+    <h1 class="text-center headers" id="question">Question</h1>
+    <div class="container question-answers">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row m-2">
+                    <div class="col-md-12 qbox" id="btn1" onclick="check_answer('btn1')">
+
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="col-md-12 qbox" id="btn2" onclick="check_answer('btn2')">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row m-2">
+                    <div class="col-md-12 qbox" id="btn3" onclick="check_answer('btn3')">
+
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="col-md-12 qbox" id="btn4" onclick="check_answer('btn4')">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
     <!-- Optional JavaScript -->
@@ -121,7 +105,7 @@
 
 	function check_answer(choice) {
 		if (choice == answer) {
-		    updatescore(items[count].id);
+		    updatescoreapi(items[count].id);
 		    cardidar.push(items[count].id);
 			if (count < maxcount) {
 				count +=1;
@@ -156,18 +140,59 @@
 
     }
 
-    function updatescore(cardid) {
-        var MY_URL = "{{ url_for("speedreview.updatescore") }}";
-        var xhr = new XMLHttpRequest();
-        var data = new FormData();
-        data.append('userid',{{ current_user.id }});
-        data.append('cardid',cardid);
-        xhr.open('POST', MY_URL);
-        xhr.send(data);
+    {#function updatescore(cardid) {#}
+    {#    var MY_URL = "{{ url_for("speedreview.updatescore") }}";#}
+    {#    var xhr = new XMLHttpRequest();#}
+    {#    var data = new FormData();#}
+    {#    data.append('userid',{{ current_user.id }});#}
+    {#    data.append('cardid',cardid);#}
+    {#    xhr.open('POST', MY_URL);#}
+    {#    xhr.send(data);#}
+
+    {#  function updatescoreapi(cardid) {#}
+    {#    var MY_URL = "{{ url_for("score/api.post") }}";#}
+    {#    var xhr = new XMLHttpRequest();#}
+    {#    var userid = "/{{ current_user.id }}/";#}
+    {#    var url = MY_URL.concat(MY_URL,userid,cardid);#}
+    {#    xhr.open('POST', MY_URL);#}
+    {#    xhr.send(url);#}
+
+
+    function updatescoreapi(cardid) {
+	    var xhr = new XMLHttpRequest();
+	    var MY_URL = "../score/api/score";
+        xhr.open("POST", MY_URL, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+            userid:{{ current_user.id }},
+            cardid:cardid
+        }))
+	}
+	function flash() {
+        $(".flash-message").toggleClass("hide-group");
+        $(".question-answers").toggleClass("hide-group");
+
+        $(".flash-message").toggleClass("hide-group",function() {
+            setTimeout(function() {
+                $(".flash-message").toggleClass("hide-group");
+            }, 5000)
+        });
+
+    }
+
+	function flash3() {
+        $(".flash-message").slideDown(function() {
+            setTimeout(function() {
+        $(".flash-message").slideUp();
+            }, 5000);
+            });
+
     }
 
 
 
-	new_question(count)
+
+
+	new_question(count);
   </script>
 {% endblock %}

@@ -2,6 +2,8 @@ from prota import db
 from flask import render_template, redirect,request,url_for,flash,abort, Blueprint
 from prota.models import  User, Card, Score
 
+# Views for Card Class #
+
 card_blueprint = Blueprint('card',
                             __name__,
                             template_folder='templates/card')

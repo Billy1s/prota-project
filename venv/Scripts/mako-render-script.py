@@ -1,4 +1,4 @@
-#!C:\Users\Billy\PycharmProjects\project-prota\first-full-layout\venv\Scripts\python.exe
+#!C:\Users\Billy\PycharmProjects\project-prota\prota-website\venv\Scripts\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'Mako==1.0.10','console_scripts','mako-render'
 __requires__ = 'Mako==1.0.10'
 import re

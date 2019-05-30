@@ -1,6 +1,9 @@
 from prota import db
 from flask import render_template, redirect,request,url_for,flash,abort, Blueprint
+from flask_login import login_required
 from prota.models import  User, Card, update_score
+
+# Views for speedview #
 
 speedreview_blueprint = Blueprint('speedreview',
                             __name__,
@@ -9,11 +12,13 @@ speedreview_blueprint = Blueprint('speedreview',
 
 
 @speedreview_blueprint.route('/game',methods=['GET','POST'])
+@login_required
 def game():
     cards = Card.query.all()
     return render_template('game.html',cards=cards)
 
 
+# View for score screen (not currently implemented) #
 
 @speedreview_blueprint.route('scorescreen',methods=['GET','POST'])
 def scorescreen():
@@ -30,17 +35,16 @@ def scorescreen():
 
     return render_template('scorescreen.html')
 
-@speedreview_blueprint.route('updatescore',methods=['POST'])
-def updatescore():
-    form = request.form
-    cardid = int(form['cardid'])
-    userid = int(form['userid'])
+# Old update view for updating a users score via a form #
 
-    update_score(userid,cardid)
-    print("success")
-    return ('', 204)
-
-
-
-#window.location = "{{ url_for("speedreview.scorescreen",cardid=cardid) }}"
-
+# @speedreview_blueprint.route('updatescore',methods=['POST'])
+# def updatescore():
+#     form = request.form
+#     cardid = int(form['cardid'])
+#     userid = int(form['userid'])
+#
+#     update_score(userid,cardid)
+#     print("success")
+#     return ('', 204)
+#
+#

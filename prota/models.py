@@ -2,6 +2,7 @@ from prota import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, login_required
 
+# class models for database #
 
 
 #############
@@ -77,7 +78,7 @@ class Score(db.Model):
         self.score = score
 
     def json(self):
-        card = Card.query.filter_by(cardid=self.cardid).first()
+        card = Card.query.filter_by(id=self.cardid).first()
         return {'score':self.score,'userid':self.userid,'cardid':self.cardid,'fr':card.fr,'eng':card.eng,'fr_snd':card.fr_snd,'eng_snd':card.eng_snd}
 
 

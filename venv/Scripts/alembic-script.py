@@ -1,4 +1,4 @@
-#!C:\Users\Billy\PycharmProjects\project-prota\first-full-layout\venv\Scripts\python.exe
+#!C:\Users\Billy\PycharmProjects\project-prota\prota-website\venv\Scripts\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'alembic==1.0.10','console_scripts','alembic'
 __requires__ = 'alembic==1.0.10'
 import re

@@ -8,3 +8,4 @@ core_blueprints = Blueprint('core',
                               __name__,
                               template_folder='templates/core')
 
+# Views for core (not used yet) #
